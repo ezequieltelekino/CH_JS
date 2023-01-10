@@ -33,8 +33,8 @@ function mostrarDatosDeCivilizacion(civ){
     }
 
     if (civ.toLowerCase() == "francos"){
-        alert("(1 de 6) Los " + civ + " son una civilización de caballería. Tiene unos caballos 20% más resistentes, ideal para salir pronto a atacar con tres o cuatro, o para pelear contra el scout enemigo y ganarle sin que sepa por qué.");
-        alert("(2 de 6) Sus jinetes tienen dos puntEso te permite pasar de edad antes, o mandar un aldeano menos a comida, que llegás re bien.");
+        alert("(1 de 6) Los " + civ + " son una civilización de caballería. Tiene unos caballos 20% más resistentes, y al igual que sus milicias, tienen mejoras automáticas de ataque ni bien pasan de edad.");
+        alert("(2 de 6) Ideal para salir pronto a atacar con tres o cuatro scouts, o para pelear contra el scout enemigo y ganarle sin que sepa por qué.");
         alert("(3 de 6) Tienen castillos un 25% más baratos, con lo cual... si antes de llegar a la edad de los castillos mandás algunos aldeanos a sacar piedra, podés sorprender a tu enemigo con un castillo en su oro.")
         alert("(4 de 6) Mejora económica: obtienen comida más rápido de las bayas, y las mejoras de granja suelen ser automáticas.")
         alert("(5 de 6) Eso te permite juntar más comida que tu oponente, y así sacar algunos scouts ni bien llegás a Feudal. Recordá cuidar al scout original.")
