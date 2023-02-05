@@ -53,11 +53,55 @@ let civilizaciones = [
     
 
 function preguntaNombre(){
-    let nombre = prompt("ingrese su nombre:");
-    while (nombre == ""){
-        console.log(typeof(nombre)) + "nombre";   
-        nombre = prompt("El nombre " + nombre + " no es válido, ponele onda");
-    }
+    let head1 = document.createElement("h1");
+    let textoQueQuieroMostrar = document.createElement("p");
+    let formularioNombre = document.createElement("input");
+    let botonNombre = document.createElement("input");
+    let mensajeSobreElNombre = document.createElement("p");
+    
+    head1.innerHTML = "<h1>Machete de Age of Empires 2, tercera entrega.</h1>"
+    textoQueQuieroMostrar.innerHTML = "<p>Ingresá tu nombre:</p> ";
+    formularioNombre.type = "text" ;
+    formularioNombre.id = "nombre";
+    botonNombre.type = "submit";
+    botonNombre.id = "botonNombre";
+    botonNombre.value ="Siguiente";
+    mensajeSobreElNombre.innerHTML = "<p>El nombre está en blanco!</p>";
+    
+    document.body.append(head1);
+    document.body.append(textoQueQuieroMostrar);
+    document.body.append(formularioNombre);
+    document.body.append(botonNombre);
+    
+
+    let nombre = null;
+
+//    let nombre = prompt("ingrese su nombre:");
+    let boton = document.getElementById("botonNombre");
+        boton.onclick = () => {
+            console.log("hizo clic");
+            nombre = document.getElementById("nombre");        
+       
+       // console.log(typeof(nombre)) + "nombre";   
+        if (nombre == null || nombre.value == "" ){
+            document.body.append(mensajeSobreElNombre);
+            console.log ("nombre en blanco");
+        }
+        else{
+            mensajeSobreElNombre.remove();
+            textoQueQuieroMostrar.remove();
+            formularioNombre.remove();
+            botonNombre.remove();
+            textoQueQuieroMostrar.innerHTML = "<p>Hola, " + nombre.value + "</p>";
+            document.body.append(textoQueQuieroMostrar);
+
+            console.log ("nombre: " + nombre.value);
+        }
+        } ;
+
+        //nombre = prompt("El nombre " + nombre + " no es válido, ponele onda");
+
+
     return nombre;
 }
 
@@ -131,11 +175,12 @@ function preguntarSiQuiereSeguir(){
 // Programa principal
 let nombre = preguntaNombre();
 
-
 let civilizacionesEnFormatoBonito = formateaNombresDeCivilizaciones();
-let seguir = "S"
+let seguir = "Sarasa"
 
 while (seguir == "S"){
+    
+
     let civilizacion = seleccionaCivilizacion();
 
     // Lo muestro con la primera en mayúscula, para que quede más cheto.
@@ -149,4 +194,4 @@ while (seguir == "S"){
     seguir = preguntarSiQuiereSeguir();
 }
 
-alert("Espero que te haya gustado. Pronto agrego más civs. Aguante el Age of Empires 2!");
+//alert("Espero que te haya gustado. Pronto agrego más civs. Aguante el Age of Empires 2!");
