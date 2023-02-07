@@ -13,6 +13,29 @@ class Civilizacion{
             alert(textoCompleto);
         });
     }
+
+    mostrarDatosEnHTML(){
+        console.log("Mostrando en html datos de: " + this.nombre)
+
+        // reutilizo el formato de texto anterior (el de los alerts para que se vea en un html)
+        let textoCompleto = "";
+        this.descripcion.forEach((texto) => {
+            textoCompleto +=  texto + "<br>" ;
+        });
+    
+        let seccionDatos = document.getElementById("datos");
+    
+        if (seccionDatos.hasChildNodes()){
+            seccionDatos.lastChild.remove();
+        }
+        let descripcionDeLaCiv = document.createElement ("p");
+        descripcionDeLaCiv.innerHTML = textoCompleto;
+        descripcionDeLaCiv.style.width = "80%"
+        descripcionDeLaCiv.style.marginLeft = "10%"
+        seccionDatos.appendChild(descripcionDeLaCiv);
+
+
+    }
 }
 
 
@@ -51,39 +74,103 @@ let civilizaciones = [
         ])
 ];
     
+function muestraMenu(civilizaciones){
+
+        // creo un mensaje indicativo
+    if (nombre == undefined){
+        console.log ("el nombre está en blanco")
+        let advertencia = document.createElement("p");
+        advertencia.id = "advertencia";
+        advertencia.innerHTML = "Hola, anónimo... ingresá tu nombre, por favor";
+        document.body.append(advertencia);
+        return;
+    }
+
+    let mensaje = document.createElement("p");
+    mensaje.style.textAlign = "center";
+    mensaje.style.width = "30%";
+    mensaje.style.backgroundColor = "#c0c0e0";
+    mensaje.innerHTML = "Seleccioná tu civilización";
+    mensaje.style.marginLeft = "33%" ; 
+    document.body.append(mensaje);
+
+    // creo un section
+    let seccionMenu = document.createElement("section");
+    seccionMenu.id = "menu"; 
+    seccionMenu.style.display = "flex";
+
+    document.body.append(seccionMenu);
+    
+    // ajusto el tamaño de la civ para que se muestre, en este caso (que son 4) al 25% c/u
+    let tamanioMaximo = String(100 / civilizaciones.length);
+    civilizaciones.forEach( civ  => {
+        console.log ("Mostrando " + civ.nombre);
+
+        let c = document.createElement("p")
+        c.id = "civ_" + civ.nombre;
+
+        c.style.backgroundColor = "#e0e0e0";
+        c.style.textAlign = "center";
+        c.style.fontSize = "30px"
+        c.style.width = tamanioMaximo + "%"
+
+        c.innerHTML =  civ.nombre;
+        seccionMenu.appendChild(c);
+        c.onclick = () => { console.log("pisa " + civ.nombre ) ; civ.mostrarDatosEnHTML ()}
+        c.onmouseover = () => { c.style.backgroundColor = "#e0f0e0" };
+        c.onmouseout = () => { c.style.backgroundColor = "#e0e0e0" };
+    })
+
+
+    let seccionDatos = document.createElement("section");
+    seccionDatos.id = "datos";
+
+    document.body.append (seccionDatos);
+}
 
 function preguntaNombre(){
-    let head1 = document.createElement("h1");
     let textoQueQuieroMostrar = document.createElement("p");
+
+
+    nombreAlmacenado = sessionStorage.getItem("nombreAlmacenado");
+    if (nombreAlmacenado){
+        nombre = JSON.parse(nombreAlmacenado).nombre;
+        console.log ("El usuario " + nombre  + " ya está almacenado");
+        textoQueQuieroMostrar.innerHTML = "<p>Hola, " + nombre + ".  Gracias por volver!</p>";
+        textoQueQuieroMostrar.style.textAlign  = "center";
+        document.body.append(textoQueQuieroMostrar);
+        let mensajeQueQuieroBorrar = document.getElementById("advertencia");
+        if (mensajeQueQuieroBorrar)
+            mensajeQueQuieroBorrar.remove();
+
+        muestraMenu(civilizaciones)        
+        return nombre;
+    }
+
+    // Si el usuario no está en storage, lo pregunto
     let formularioNombre = document.createElement("input");
     let botonNombre = document.createElement("input");
     let mensajeSobreElNombre = document.createElement("p");
     
-    head1.innerHTML = "<h1>Machete de Age of Empires 2, tercera entrega.</h1>"
-    textoQueQuieroMostrar.innerHTML = "<p>Ingresá tu nombre:</p> ";
+  //  textoQueQuieroMostrar.innerHTML = "<p>Ingresá tu nombre:</p> ";
     formularioNombre.type = "text" ;
     formularioNombre.id = "nombre";
     botonNombre.type = "submit";
     botonNombre.id = "botonNombre";
     botonNombre.value ="Siguiente";
     mensajeSobreElNombre.innerHTML = "<p>El nombre está en blanco!</p>";
+
     
-    document.body.append(head1);
-    document.body.append(textoQueQuieroMostrar);
+  //  document.body.append(textoQueQuieroMostrar);
     document.body.append(formularioNombre);
     document.body.append(botonNombre);
     
-
-    let nombre = null;
-
-//    let nombre = prompt("ingrese su nombre:");
     let boton = document.getElementById("botonNombre");
-        boton.onclick = () => {
-            console.log("hizo clic");
-            nombre = document.getElementById("nombre");        
-       
-       // console.log(typeof(nombre)) + "nombre";   
-        if (nombre == null || nombre.value == "" ){
+    boton.onclick = () => {
+        console.log("hizo clic");
+        let nombreObtenido = document.getElementById("nombre");        
+    
+        if (nombreObtenido == null || nombreObtenido.value == "" ){
             document.body.append(mensajeSobreElNombre);
             console.log ("nombre en blanco");
         }
@@ -92,106 +179,37 @@ function preguntaNombre(){
             textoQueQuieroMostrar.remove();
             formularioNombre.remove();
             botonNombre.remove();
-            textoQueQuieroMostrar.innerHTML = "<p>Hola, " + nombre.value + "</p>";
+            textoQueQuieroMostrar.innerHTML = "<p>Hola, " + nombreObtenido.value + ". Ojalá disfrutes del sitio, pese a su estética noventosa! (como el Age, claro)</p>";
+            textoQueQuieroMostrar.style.textAlign = "center";
             document.body.append(textoQueQuieroMostrar);
 
-            console.log ("nombre: " + nombre.value);
-        }
-        } ;
-
-        //nombre = prompt("El nombre " + nombre + " no es válido, ponele onda");
-
-
-    return nombre;
-}
-
-function formateaNombresDeCivilizaciones(){
-    // recibe el array (de objetos) de civilizaciones, y devuelve una cadena con los nombres en formato humano "tal, tal y tal otro".
-    let  devolver = ""
-    for (civ in civilizaciones) {
-        if (civ == civilizaciones.length-1)
-            devolver = devolver + " y " + civilizaciones[civ].nombre ;
-        else
-            devolver = devolver + civilizaciones[civ].nombre + ", ";
-    }
-    return devolver;
-}
-
-function seleccionaCivilizacion(){
-    let primerMensaje = "Hola, " + nombre + ". Esto es una guía de Age Of Empires.\n\nVamos a seleccionar alguna civilización para darte toda la info posible.\
-    Las opciones son:\n\n" + civilizacionesEnFormatoBonito;
-    let civilizacionElegida = "";
-    let civilizacionValida = false;
-    let veces = 0;
-    let devolver;   // para devolver el objeto en lugar del nombre como string
-    while( true ){
-    
-        if (veces == 0)
-            civilizacionElegida = prompt(primerMensaje);
-    
+            console.log ("nombre que voy a devolver: " + nombreObtenido.value);
+            nombre = nombreObtenido.value;
         
-        for (civ in civilizaciones) {
-            if (civilizaciones[civ].nombre.toLocaleLowerCase() == civilizacionElegida.toLowerCase()){
-                civilizacionValida = true;
-                devolver = civilizaciones[civ];   // guardo una referencia a la civ actual
-            }
-        }
-    //    console.log(devolver)
-        console.log("Civilización seleccionada: " + civilizacionElegida);
-        if (civilizacionValida){
-             console.log("Es válida, salimos!");
-             return devolver; //civilizacionElegida;
-        }
-        else{
-            console.log("Es incorrecta. Volvemos a preguntar.");
-        }
-    
-        veces ++;
-        segundoMensaje = "";
-        if (veces < 3){
-            segundoMensaje = nombre + ": La opción que ingresaste (" + civilizacionElegida + ") no es válida.\n\n \
-                 Las opciones son: \n\n" + civilizacionesEnFormatoBonito;
-        }
-        else{
-            segundoMensaje = nombre + ": La opción que ingresaste (" + civilizacionElegida + ") no es válida.\n\n \
-            Las opciones son: \n\n" + civilizacionesEnFormatoBonito + "\n\nYa van " + veces + " intentos, ponele onda! Ni siquiera te pido respetar mayúsculas! :(";
-        }
-    
-        civilizacionElegida = prompt (segundoMensaje).toLowerCase();
-    }
-    
+            sessionStorage.setItem("nombreAlmacenado", JSON.stringify( {nombre: nombre}));
+            console.log("Devolviendo el nombre " + nombre)
+            
+            let mensajeQueQuieroBorrar = document.getElementById("advertencia");
+            if (mensajeQueQuieroBorrar)
+                mensajeQueQuieroBorrar.remove();
+
+            muestraMenu(civilizaciones);
+            return nombre;
+        }   
+    } ;
 }
-
-function preguntarSiQuiereSeguir(){
-    let quiereSeguir = prompt("¿Querés ver otra civ? S/N" );
-    while (quiereSeguir.toUpperCase() != "S" && quiereSeguir.toUpperCase() != "N"){
-        quiereSeguir = prompt("Opción inválida: " + quiereSeguir + " ¿Querés ver otra civ? (poné S o N)");
-    }
-    return quiereSeguir.toUpperCase();
-}
-
-
 
 // Programa principal
-let nombre = preguntaNombre();
+document.body.style.backgroundColor = "#f0e8f0";
+let head1 = document.createElement("h1");
+head1.innerHTML = "Machete de Age of Empires 2, tercera entrega";
+head1.style.textAlign = "center";
+document.body.append(head1);
+let nombre = undefined;    
+// muestro el menú ANTES que preguntar el nombre, así sé si debo mostrarlo... y mando advertencia.
+// En caso de no mostrar nada, preguntaNombre lo lanza de nuevo ^_^ 
+muestraMenu(civilizaciones);
 
-let civilizacionesEnFormatoBonito = formateaNombresDeCivilizaciones();
-let seguir = "Sarasa"
+nombre = preguntaNombre() 
 
-while (seguir == "S"){
-    
 
-    let civilizacion = seleccionaCivilizacion();
-
-    // Lo muestro con la primera en mayúscula, para que quede más cheto.
-//    let nombreCivilizacion = civilizacion.nombre[0].toUpperCase() + civilizacion.nombre.substring(1);
-
-    alert("Excelente, " + nombre + ". Vamos a darte info sobre los " + civilizacion.nombre + ".");
-
-   // mostrarDatosDeCivilizacion(civilizacion);
-    civilizacion.mostrarDatos();
-    alert("Eso es todo lo que puedo decirte en este momento sobre " + civilizacion.nombre + ", " + nombre + ". Espero que te haya servido.");
-    seguir = preguntarSiQuiereSeguir();
-}
-
-//alert("Espero que te haya gustado. Pronto agrego más civs. Aguante el Age of Empires 2!");
