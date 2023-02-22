@@ -7,6 +7,9 @@ class Civilizacion{
 
 
     mostrarDatosEnHTML(){
+
+
+
         console.log("Mostrando en html datos de: " + this.nombre)
 
         // reutilizo el formato de texto anterior (el de los alerts para que se vea en un html)
@@ -145,13 +148,36 @@ function muestraMenu(civilizaciones){
 
         c.innerHTML =  civ.nombre;
         seccionMenu.appendChild(c);
-        c.onclick = () => { console.log("pisa " + civ.nombre ) ; civ.mostrarDatosEnHTML ()}
+        c.onclick = () => { 
+                console.log("Haciéndome el que busco datos en la BD");
+
+                Toastify({
+                    text: "Obteniendo datos de la base de datos. \nAuspicia esta demora: Telecentro.",
+                    duration: 1000,
+                    offset: {
+                        x:0, 
+                        y:50
+                    }        
+                    }).showToast();
+
+
+                return new Promise ( (resolve, reject) => {
+                    setTimeout( () => {
+                        resolve (civ.mostrarDatosEnHTML()),
+                        console.log("dato obtenido lentamente")
+                    }, 1000)
+                })
+            
+            //civ.mostrarDatosEnHTML ()
+        }        
         c.onmouseover = () => { c.style.backgroundColor = "#e0f0e0" };
         c.onmouseout = () => { c.style.backgroundColor = "#e0e0e0" };
     })
 
     let seccionDatos = document.createElement("section");
     seccionDatos.id = "datos";
+
+
     document.body.append (seccionDatos);
 }
 
@@ -165,10 +191,10 @@ function saluda(saludo){
     let divContieneSaludo = document.createElement("div");
     divContieneSaludo.appendChild(saludo);
     divContieneSaludo.append (botonLogOut);
-    divContieneSaludo.style.display = "flex"
-    divContieneSaludo.style.justifyContent = "space-between"
-    divContieneSaludo.style.marginLeft = "20%"
-    divContieneSaludo.style.marginRight = "10%"
+    divContieneSaludo.style.display = "block"
+    divContieneSaludo.style.textAlign = "center"
+    divContieneSaludo.style.marginLeft = "25%"
+    divContieneSaludo.style.marginRight = "25%"
     botonLogOut.style.borderRadius = "8px";
     botonLogOut.style.borderRadius = "8px";
 
@@ -244,7 +270,7 @@ function preguntaNombre(){
     
         if (nombreObtenido == null || nombreObtenido.value == "" ){
             mensajeSobreElNombre.style.marginLeft = "30%";
-            document.body.append(mensajeSobreElNombre);
+           // document.body.append(mensajeSobreElNombre);
             console.log ("nombre en blanco");
             Swal.fire({
                 title: 'Error!',
