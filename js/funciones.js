@@ -55,10 +55,9 @@ function pideCiv(){
     let mensaje = document.createElement("p");
     mensaje.id = "selecciona"
     mensaje.style.textAlign = "center";
-    mensaje.style.width = "30%";
+    mensaje.style.width = "100%";
     mensaje.style.backgroundColor = "#c0c0e0";
     mensaje.innerHTML = "Seleccioná tu civilización";
-    mensaje.style.marginLeft = "33%" ; 
     document.body.append(mensaje);
 }
 function muestraMenu(civilizaciones){
@@ -289,6 +288,7 @@ const getDatos = async() => {
 
 // Programa principal
 creaHead("Machete de Age of Empires 2, entrega final");
-let civilizaciones = []
-let nombre = preguntaNombre() 
+let civilizaciones = [];
+let nombre = undefined;
+preguntaNombre();
 getDatos();
