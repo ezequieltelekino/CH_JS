@@ -42,5 +42,16 @@
         "Mejoras económicas: los aldeanos tienen mayor ataque contra jabalíes u animales salvajes; y transportan +15 de comida. Podés matarlos más fácilmente e incluso hacerlo lejos.",
         "Bonificación de equipo: los cuarteles funcionan un 20% más rápido. Ideal para caer junto a un celta y romper todo."
       ]
+    },
+    {
+      "nombre": "Etíopes",
+      "descripcion": [
+        "Los etíopes son una civilización de arqueros e infantería. Sus arqueros son muy poderosos ya que disparan un 18% más rápido. En edad feudal le ganan a cualquier otro arquero porque disparan más veces.",
+        "Como (casi) todas las civs de arqueros, tienen todas las mejoras de arquería y herrería, de modo que los arqueros tienen un excelente ataque, excelente precisión (no como los britanos), muy buen escudo y rango (pero no tanto como los britanos, claro).",
+        "Tienen una unidad única llamada Shotelai, que es muy barata y rápida. Corre casi tan rápido como un caballo. Como casi todas las unidades de infantería, es débil contra flechas.",
+        "Si estudiás incendiarismo en el cuartel, los shotelais pueden destruir edificios con mucha facilidad. Y si metés la primera corona del castillo, te permite generarlos casi instantáneamente. De modo que con un solo castillo podés juntar gran cantidad de shotelais en muy poco tiempo.",
+        "Mejoras económicas: al pasar de edad, recibe automáticamente 100 de alimento y 100 de oro; ideal para hacer unos hombres de armas. Los piqueros se mejoran automáticamente, ideal para defenderte de caballos.",
+        "Bonificación de equipo: las torres y los puestos avanzados tienen +3 en línea de visión."
+      ]
     }
   ]

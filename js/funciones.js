@@ -282,8 +282,9 @@ const getDatos = async() => {
             c = new Civilizacion(civ.nombre,civ.descripcion);
             civilizaciones.push(c);  
         });
+        // una vez obtenidas las civilizaciones, muestro el menú
         muestraMenu(civilizaciones)
-    })
+    })  
 }
 
 // Programa principal
