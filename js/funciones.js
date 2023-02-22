@@ -178,6 +178,14 @@ function saluda(saludo){
         sessionStorage.removeItem("nombreAlmacenado");
         divContieneSaludo.remove();
         nombre = undefined;
+        Toastify({
+            text: "Cerraste sesión correctamente",
+            duration: 3000,
+            offset: {
+                x:0, 
+                y:50
+            }        
+            }).showToast();
         pideCiv();
         preguntaNombre();
         muestraMenu(civilizaciones);
@@ -220,6 +228,7 @@ function preguntaNombre(){
     botonNombre.value ="Ingresa tu nombre";
     mensajeSobreElNombre.innerHTML = "El nombre está en blanco!";
 
+
     let divQueContieneElFormulario = document.createElement("div");
     divQueContieneElFormulario.append(formularioNombre);
     divQueContieneElFormulario.append(botonNombre);
@@ -237,6 +246,12 @@ function preguntaNombre(){
             mensajeSobreElNombre.style.marginLeft = "30%";
             document.body.append(mensajeSobreElNombre);
             console.log ("nombre en blanco");
+            Swal.fire({
+                title: 'Error!',
+                text: 'Ingresaste un nombre en blanco, ponele onda!',
+                icon: 'error',
+                confirmButtonText: 'Ok, voy a meterle más onda.'
+              })
         }
         else{
             bienvenidaAnonimo();
