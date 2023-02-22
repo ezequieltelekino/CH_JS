@@ -77,7 +77,7 @@ function bienvenidaAnonimo(){
         console.log ("el nombre está en blanco")
         let advertencia = document.createElement("p");
         advertencia.id = "advertencia";
-        advertencia.innerHTML = "Hola, anónimo... ingresá tu nombre, por favor";
+        advertencia.innerHTML = "Hola, anónimo... ingresá tu nombre, por favor (spoiler alert: valido que esté en blanco, nada más)";
         advertencia.style.marginLeft = "30%";
 
         document.body.append(advertencia);
