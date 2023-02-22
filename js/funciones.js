@@ -34,40 +34,7 @@ class Civilizacion{
 }
 
 
-let civilizaciones = [ 
-    new Civilizacion("Britanos",[
-    "Los britanos son una civilización de arqueros. Su principal característica es tener mayor alcance que cualquier otra civ.",
-    "Por cada paso de edad aumentan el rango en un punto. Y haciendo todas las mejoras de herrería y castillo (también la primera corona!) podés llegar a tener hasta 12 puntos de distancia.",
-    "Una buena cantidad de arqueros es prácticamente imparable, porque cualquier unidad por más escudo que tenga, muere antes de llegar a tocarlos.",
-    "Económicamente no son gran cosa, pero obtienen comida de animales de granja (ovejas, patos, chanchitos) más rápido que las otras civilizaciones.",
-    "Eso te permite pasar de edad antes, o mandar un aldeano menos a comida, que llegás re bien.",
-    "Bonificación de equipo: sus arquerías producen un 20% más rápido. Ideal para que tu coequiper saque guerrilleros y vos arqueros. No descuiden la economía con tanta producción militar."
-    ]),
-    new Civilizacion("Francos",[
-        "Los francos son una civilización de caballería. Tiene unos caballos 20% más resistentes, y al igual que sus milicias, tienen mejoras automáticas de ataque ni bien pasan de edad.",
-        "Ideal para salir pronto a atacar con tres o cuatro scouts, o para pelear contra el scout enemigo y ganarle sin que sepa por qué.",
-        "Tienen castillos un 25% más baratos, con lo cual... si antes de llegar a la edad de los castillos mandás algunos aldeanos a sacar piedra, podés sorprender a tu enemigo con un castillo en su oro.",
-        "Mejora económica: obtienen comida más rápido de las bayas, y las mejoras de granja suelen ser automáticas.",
-        "Eso te permite juntar más comida que tu oponente, y así sacar algunos scouts ni bien llegás a Feudal. Recordá cuidar al scout original.",
-        "Bonificación de equipo: los jinetes ven más de lejos. Ideal para que con tus coequipers salgan a drushear aldeanos."
-    ]),
-    new Civilizacion("Celtas",[
-        "Los celtas son una civilización de infantería y asedio. Sus unidades de infantería se mueven más rápido, lo cual te permite hacer un drush de hombres de armas que es muy difícil de frenar.",
-        "Sus armas de asedio disparan un 20% más rápido. Si tenés dos o tres escorpiones complementados con unos piqueros, podés bajarle cualquier cosa.",
-        "Mejoras económicas: sus aldeanos obtienen madera un 15% más rápido. De modo que puedas sacar gran cantidad de asedio.",
-        "Una ventaja no menor: las ovejas (u animales de granja) que estén en rango de una unidad celta, no pueden ser capturadas por otras civilizaciones.",
-        "Esto es ideal para ir a robarle al enemigo. Robar está mal, pero así... no tan mal. La ventaja económica obtenida por robar un par de ovejas es enorme.",
-        "Bonificación de equipo: los talleres de maquinaria funcionan un 20% más rápido. No es tan útil, porque el asedio Celta ya es mejor que cualquier otro. Mejor que saquen arqueros o caballos."
-        ]),
-    new Civilizacion("Godos",[
-        "Los godos son una civilización de infantería. Muy poderosa, especialmente contra arqueros. Sus unidades de infantería son un 20% más baratas, y en cada edad se hacen más baratas aún.",
-        "Además, las unidades de infantería obtienen un punto de ataque más por cada paso de edad. Esas características te permite sacar mayor cantidad de unidades que cualquier otra civ en el juego. Y encima con un ataque muy poderoso.",
-        "Tienen una unidad única llamada Huscarle, que es prácticamente inmune a flechas. Pueden destruir a un ejército de arqueros, o a cualquier edificio. Ni hablar si estudiás incendiarismo.",
-        "El Huscarle sale del castillo, pero estudiando la corona podés también sacarlos de los cuarteles.",
-        "Mejoras económicas: los aldeanos tienen mayor ataque contra jabalíes u animales salvajes; y transportan +15 de comida. Podés matarlos más fácilmente e incluso hacerlo lejos.",
-        "Bonificación de equipo: los cuarteles funcionan un 20% más rápido. Ideal para caer junto a un celta y romper todo."
-        ])
-];
+let civilizaciones = []
 
 function bienvenidaAnonimo(){
     console.log("en bienvenidaAnonimo")
@@ -131,10 +98,12 @@ function muestraMenu(civilizaciones){
     seccionMenu.style.display = "flex";
 
     document.body.append(seccionMenu);
-    
+
+
     // ajusto el tamaño de la civ para que se muestre, en este caso (que son 4) al 25% c/u
     console.log (civilizaciones)
     let tamanioMaximo = String(100 / civilizaciones.length);
+    console.log("hay " + civilizaciones.length + " civs")
     civilizaciones.forEach( civ  => {
         console.log ("Mostrando " + civ.nombre);
 
@@ -290,7 +259,6 @@ function preguntaNombre(){
             saludo.innerHTML = "Hola, " + nombreObtenido.value + ". Ojalá disfrutes del sitio, pese a su estética noventosa! (como el Age, claro)";
             saluda(saludo);
 
-
             console.log ("nombre que voy a devolver: " + nombreObtenido.value);
             nombre = nombreObtenido.value;
         
@@ -324,9 +292,49 @@ creaHead("Machete de Age of Empires 2, entrega final");
 let nombre = undefined;    
 nombre = preguntaNombre() 
 
-muestraMenu(civilizaciones);
+const getDatos = async() => {
+    const resp = await fetch("js/civilizaciones.json")
+    // primer then obtiene el resultado de la petición
+    .then ( (res) => res.json() )
+
+    //segundo then, me trae los datos del json pposta
+    .then ((data) => {
+        console.log("segundo then")
+        console.log(data)
+        data.forEach(civ => {
+
+            // cada ítem leído del json es un objeto.
+            // hago un new de la clase civiliación por cada uno de estos objetos
+            // así lo dejo en el mismo formato que tenía cuando estaba en el código
+
+            console.log("Creandop la civ: " + civ.nombre)
+            c = new Civilizacion(civ.nombre,civ.descripcion);
+            civilizaciones.push(c);
+            
+        });
+        muestraMenu(civilizaciones)
+    })
+
+}
+
+console.log("pidiendo datos")
+getDatos();
+console.log("sigo")
+
+console.log(civilizaciones)
 
 
 
 
 
+
+/*   // código que me descarga el array de civs en formato json. Gracias, google.
+const a = document.createElement("a");
+a.href = URL.createObjectURL(new Blob([JSON.stringify(civilizaciones, null, 2)], {
+  type: "text/plain"
+}));
+a.setAttribute("download", "data.txt");
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+*/
