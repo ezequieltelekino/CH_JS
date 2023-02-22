@@ -4,14 +4,8 @@ class Civilizacion{
         this.descripcion = descripcion;
     }
 
-
-
     mostrarDatosEnHTML(){
-
-
-
         console.log("Mostrando en html datos de: " + this.nombre)
-
         // reutilizo el formato de texto anterior (el de los alerts para que se vea en un html)
         let textoCompleto = "";
         this.descripcion.forEach((texto) => {
@@ -19,7 +13,6 @@ class Civilizacion{
         });
     
         let seccionDatos = document.getElementById("datos");
-    
         if (seccionDatos.hasChildNodes()){
             seccionDatos.lastChild.remove();
         }
@@ -28,13 +21,8 @@ class Civilizacion{
         descripcionDeLaCiv.style.width = "80%"
         descripcionDeLaCiv.style.marginLeft = "10%"
         seccionDatos.appendChild(descripcionDeLaCiv);
-
-
     }
 }
-
-
-let civilizaciones = []
 
 function bienvenidaAnonimo(){
     console.log("en bienvenidaAnonimo")
@@ -56,7 +44,6 @@ function bienvenidaAnonimo(){
 }
 
 function pideCiv(){
-
     //verifico si ya había un mensaje, y lo elimino
     let mensajeAnterior = document.getElementById("selecciona");
     if (mensajeAnterior)
@@ -96,9 +83,7 @@ function muestraMenu(civilizaciones){
     let seccionMenu = document.createElement("section");
     seccionMenu.id = "menu"; 
     seccionMenu.style.display = "flex";
-
     document.body.append(seccionMenu);
-
 
     // ajusto el tamaño de la civ para que se muestre, en este caso (que son 4) al 25% c/u
     console.log (civilizaciones)
@@ -145,15 +130,12 @@ function muestraMenu(civilizaciones){
 
     let seccionDatos = document.createElement("section");
     seccionDatos.id = "datos";
-
-
     document.body.append (seccionDatos);
 }
 
 function saluda(saludo){
     console.log("saludando")
     bienvenidaAnonimo()
-
 
     let botonLogOut = document.createElement ("button");
     botonLogOut.innerHTML = "Cambiar Usuario";
@@ -223,7 +205,6 @@ function preguntaNombre(){
     botonNombre.value ="Ingresa tu nombre";
     mensajeSobreElNombre.innerHTML = "El nombre está en blanco!";
 
-
     let divQueContieneElFormulario = document.createElement("div");
     divQueContieneElFormulario.append(formularioNombre);
     divQueContieneElFormulario.append(botonNombre);
@@ -283,15 +264,6 @@ function creaHead(texto){
     document.body.append(head1);
 }
 
-// Programa principal
-creaHead("Machete de Age of Empires 2, entrega final");
-
-// muestro el menú ANTES que preguntar el nombre, así sé si debo mostrarlo... y mando advertencia.
-// En caso de no mostrar nada, preguntaNombre lo lanza de nuevo ^_^ 
-
-let nombre = undefined;    
-nombre = preguntaNombre() 
-
 const getDatos = async() => {
     const resp = await fetch("js/civilizaciones.json")
     // primer then obtiene el resultado de la petición
@@ -309,32 +281,14 @@ const getDatos = async() => {
 
             console.log("Creandop la civ: " + civ.nombre)
             c = new Civilizacion(civ.nombre,civ.descripcion);
-            civilizaciones.push(c);
-            
+            civilizaciones.push(c);  
         });
         muestraMenu(civilizaciones)
     })
-
 }
 
-console.log("pidiendo datos")
+// Programa principal
+creaHead("Machete de Age of Empires 2, entrega final");
+let civilizaciones = []
+let nombre = preguntaNombre() 
 getDatos();
-console.log("sigo")
-
-console.log(civilizaciones)
-
-
-
-
-
-
-/*   // código que me descarga el array de civs en formato json. Gracias, google.
-const a = document.createElement("a");
-a.href = URL.createObjectURL(new Blob([JSON.stringify(civilizaciones, null, 2)], {
-  type: "text/plain"
-}));
-a.setAttribute("download", "data.txt");
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-*/
